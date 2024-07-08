@@ -8,6 +8,17 @@ public class Movement2D : MonoBehaviour
     private float moveSpeed = 5.0f;
     // 이동 방향
     private Vector3 moveDirection = Vector3.zero;
+
+    // RigidBody2D 객체 정의
+    private Rigidbody2D rigid2D;
+
+
+    // 같은 컴포넌트에 포함되어 있는 RigidBody2D 정보 가져오기
+    private void Awake()
+    {
+        rigid2D = GetComponent<Rigidbody2D>();
+    }
+
     private void Update()
     {
         // 좌우 이동
@@ -46,7 +57,10 @@ public class Movement2D : MonoBehaviour
         moveDirection = new Vector3(x, y, 0);
 
         // 방향키로 새 위치 조정
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        // transform.position += moveDirection * moveSpeed * Time.deltaTime;
+
+        // Rigidbody2D 컴포넌트에 있는 속력 (velocity) 변수 설정
+        rigid2D.velocity = new Vector3(x, y, 0) * moveSpeed;
 
         // Time.deltaTime이란 이전 Update() 종료부터 다음 Update() 시작까지의 시간
         // 즉, 업데이트 사이의 시간
